@@ -22,11 +22,16 @@ class AchievementController extends Controller
     {
         $achievements = DB::table('achievement')
         ->join('mvariant', 'achievement.MID', '=', 'mvariant.MID')
-        ->select('achievement.*', 'mvariant.name as nama_variant')
+        ->select('achievement.*', 'mvariant.name as nama_variant', 'mvariant.barcode as barcode_variant')
         ->where('end_date', '>=' , date('Y-m-d') )->get();
         return json_encode($achievements);
     }
 
+    public function get_achievement($barcode)
+    {
+        $achievement = DB::connection('sqlsrv')->table('mlog')->where('barcode', $barcode)->where('tgljam', '>', '2019-02-17 00:00:00')->orderBy('tgljam', 'desc')->first();
+        return json_encode($achievement);
+    }
 
     /**
      * Show the form for creating a new resource.

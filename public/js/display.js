@@ -3454,51 +3454,64 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      achievement: [],
+      getting_date: '',
       jam: '00:00',
       tanggal: '00 Januari 0000',
       achievements: []
     };
   },
   mounted: function mounted() {
-    this.setTglJam();
     this.getAchievements();
+    this.achievement[18998866200889] = 'hoho'; // this.setTglJam();
   },
   methods: {
+    getAchievement: function getAchievement(barcode) {
+      var vm = this;
+      axios.get('api/display/get_achievement/' + barcode).then(function (response) {
+        console.log(barcode + ' +- ' + JSON.stringify(response.data.barcode));
+        vm.achievement[response.data.barcode] = response.data.barcode;
+      }).catch(function (error) {
+        console.log(error);
+      });
+    },
     getPersentase: function getPersentase(target, actual) {
       var hasil = actual / target * 100;
+      console.log(hasil);
       return hasil;
     },
     getAchievements: function getAchievements() {
       var vm = this;
       axios.get('api/display/get_achievements').then(function (response) {
-        console.log(response.data);
+        // console.log( response.data );
         vm.achievements = response.data;
       }).catch(function (error) {
         console.log(error);
       });
-    },
-    setTime: function setTime(time) {
-      if (time < 10) {
-        return '0' + time;
-      }
+    } // setTime : function ( time )
+    // {
+    //     if (time < 10) {
+    //        return '0'+time;
+    //     }
+    //     return time;
+    // },
+    // setTglJam : function ()
+    // {
+    //     var vm = this;
+    //     this.getting_date = setInterval(function() {
+    //         var date = new Date();
+    //         var h = vm.setTime(date.getHours());
+    //         var i = vm.setTime(date.getMinutes());
+    //         var s = vm.setTime(date.getSeconds());
+    //         var d = vm.setTime(date.getDate());
+    //         var dateString = date.toString();
+    //         var arrDate = dateString.split(' ');
+    //         var htmlDate = arrDate[0] + ", " + arrDate[2] + " " + arrDate[1] + " " + arrDate[3];
+    //         vm.jam = h+':'+i+':'+s;
+    //         vm.tanggal = htmlDate;
+    //      }, 10000);
+    // }
 
-      return time;
-    },
-    setTglJam: function setTglJam() {
-      var vm = this;
-      setInterval(function () {
-        var date = new Date();
-        var h = vm.setTime(date.getHours());
-        var i = vm.setTime(date.getMinutes());
-        var s = vm.setTime(date.getSeconds());
-        var d = vm.setTime(date.getDate());
-        var dateString = date.toString();
-        var arrDate = dateString.split(' ');
-        var htmlDate = arrDate[0] + ", " + arrDate[2] + " " + arrDate[1] + " " + arrDate[3];
-        vm.jam = h + ':' + i + ':' + s;
-        vm.tanggal = htmlDate;
-      }, 1000);
-    }
   }
 });
 
@@ -72823,7 +72836,7 @@ var render = function() {
                 [
                   _c(
                     "el-col",
-                    { staticClass: "variant-item", attrs: { span: 2 } },
+                    { staticClass: "variant-item", attrs: { span: 8 } },
                     [_vm._v("Variant")]
                   ),
                   _vm._v(" "),
@@ -72861,7 +72874,7 @@ var render = function() {
                   [
                     _c(
                       "el-col",
-                      { staticClass: "variant-item", attrs: { span: 2 } },
+                      { staticClass: "variant-item", attrs: { span: 8 } },
                       [_vm._v(_vm._s(achievement.nama_variant))]
                     ),
                     _vm._v(" "),
@@ -72886,7 +72899,13 @@ var render = function() {
                     _c(
                       "el-col",
                       { staticClass: "variant-item", attrs: { span: 4 } },
-                      [_vm._v(_vm._s(achievement.actual))]
+                      [
+                        _vm._v(
+                          _vm._s(
+                            _vm.getAchievement(achievement.barcode_variant)
+                          ) + _vm._s(achievement[achievement.barcode_variant])
+                        )
+                      ]
                     ),
                     _vm._v(" "),
                     _c(
