@@ -29,7 +29,7 @@
                     <el-col class="variant-item" :span="8">{{ achievement.nama_variant }}</el-col>
                     <el-col class="variant-item" :span="4">{{ achievement.start_date }} - {{ achievement.end_date }}</el-col>
                     <el-col class="variant-item" :span="4">{{ achievement.target }}</el-col>
-                    <el-col class="variant-item" :span="4">{{ getAchievement( achievement.barcode_variant ) }}{{ achievement[achievement.barcode_variant] }}</el-col>
+                    <el-col class="variant-item" :span="4">{{ getAchievement( achievement.barcode_variant ) }}</el-col>
                     <el-col class="variant-item" :span="4">{{ getPersentase(achievement.target,achievement.actual) }} %</el-col>
                 </el-row>
             </el-main>
@@ -62,7 +62,7 @@
     export default {
         data () {
             return {
-                achievement : [],
+                myachievement : '',
                 getting_date : '',
                 jam : '00:00',
                 tanggal : '00 Januari 0000',
@@ -71,7 +71,6 @@
         },
         mounted: function () {
             this.getAchievements();
-            this.achievement[18998866200889] = 'hoho';
             // this.setTglJam();
         },
         methods: {
@@ -80,12 +79,14 @@
                 var vm = this;
                 axios.get('api/display/get_achievement/'+barcode)
                 .then( function ( response ) {
-                    console.log( barcode + ' +- ' + JSON.stringify(response.data.barcode) );
-                    vm.achievement[response.data.barcode] = response.data.barcode;
+                    // vm.myachievement = JSON.stringify(response.data.barcode);
+                    // console.log( barcode + ' +- ' + JSON.stringify(response.data.barcode) );
+                    alert(response.data.tgljam);
                 })
                 .catch( function ( error ) {
                     console.log( error )
                 })
+
             },
             getPersentase : function (target, actual)
             {

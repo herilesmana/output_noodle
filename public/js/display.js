@@ -3454,7 +3454,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      achievement: [],
+      myachievement: '',
       getting_date: '',
       jam: '00:00',
       tanggal: '00 Januari 0000',
@@ -3462,15 +3462,15 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   mounted: function mounted() {
-    this.getAchievements();
-    this.achievement[18998866200889] = 'hoho'; // this.setTglJam();
+    this.getAchievements(); // this.setTglJam();
   },
   methods: {
     getAchievement: function getAchievement(barcode) {
       var vm = this;
       axios.get('api/display/get_achievement/' + barcode).then(function (response) {
-        console.log(barcode + ' +- ' + JSON.stringify(response.data.barcode));
-        vm.achievement[response.data.barcode] = response.data.barcode;
+        // vm.myachievement = JSON.stringify(response.data.barcode);
+        // console.log( barcode + ' +- ' + JSON.stringify(response.data.barcode) );
+        alert(response.data.tgljam);
       }).catch(function (error) {
         console.log(error);
       });
@@ -72903,7 +72903,7 @@ var render = function() {
                         _vm._v(
                           _vm._s(
                             _vm.getAchievement(achievement.barcode_variant)
-                          ) + _vm._s(achievement[achievement.barcode_variant])
+                          )
                         )
                       ]
                     ),
