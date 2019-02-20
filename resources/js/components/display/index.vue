@@ -25,12 +25,17 @@
                     <el-col class="variant-item" :span="4">Actual</el-col>
                     <el-col class="variant-item" :span="4">Achievement</el-col>
                 </el-row>
+                <span v-show="tampil">{{ no = 0 }}</span>
                 <el-row class="variant" v-for="achievement in achievements" :key="achievement.id">
                     <el-col class="variant-item" :span="8">{{ achievement.nama_variant }}</el-col>
                     <el-col class="variant-item" :span="4">{{ achievement.start_date }} - {{ achievement.end_date }}</el-col>
-                    <el-col class="variant-item" :span="4">{{ achievement.target }}</el-col>
-                    <el-col class="variant-item" :span="4">{{ getAchievement( achievement.barcode_variant ) }}</el-col>
-                    <el-col class="variant-item" :span="4">{{ getPersentase(achievement.target,achievement.actual) }} %</el-col>
+                    <el-col class="variant-item" :span="4">
+                        {{ achievement.barcode_variant }} -
+                        {{ target[achievement.barcode_variant] }}
+                    </el-col>
+                    <el-col class="variant-item" :span="4">{{ actual[no] }}</el-col>
+                    <el-col class="variant-item" :span="4">{{ getPersentase(target[achievement.barcode_variant],actual[no]) }} %</el-col>
+                    <span v-show="tampil">{{ no ++ }}</span>
                 </el-row>
             </el-main>
         </el-container>
@@ -62,7 +67,10 @@
     export default {
         data () {
             return {
-                myachievement : '',
+                tampil: false,
+                target: [],
+                actual: [],
+                myachievement : [],
                 getting_date : '',
                 jam : '00:00',
                 tanggal : '00 Januari 0000',
@@ -71,27 +79,14 @@
         },
         mounted: function () {
             this.getAchievements();
-            // this.setTglJam();
+            this.setTglJam();
+            // this.getAchievement(18998866200315);
         },
         methods: {
-            getAchievement : function (barcode)
-            {
-                var vm = this;
-                axios.get('api/display/get_achievement/'+barcode)
-                .then( function ( response ) {
-                    // vm.myachievement = JSON.stringify(response.data.barcode);
-                    // console.log( barcode + ' +- ' + JSON.stringify(response.data.barcode) );
-                    alert(response.data.tgljam);
-                })
-                .catch( function ( error ) {
-                    console.log( error )
-                })
-
-            },
             getPersentase : function (target, actual)
             {
                 var hasil = (actual / target) * 100 ;
-                console.log(hasil);
+                // console.log(hasil);
                 return hasil;
             },
             getAchievements : function ()
@@ -101,34 +96,56 @@
                 .then( function ( response ) {
                     // console.log( response.data );
                     vm.achievements = response.data;
+                    vm.actual = [];
+                    for (var i = 0; i < vm.achievements.length; i++) {
+                        vm.target[vm.achievements[i].barcode_variant] = vm.achievements[i].target;
+                        if (i < 2) {
+                            vm.getAchievement(vm.achievements[i].barcode_variant);
+                        }
+                        console.log(vm.actual);
+                    }
                 })
                 .catch( function ( error ) {
                     console.log( error )
                 })
             },
-            // setTime : function ( time )
-            // {
-            //     if (time < 10) {
-            //        return '0'+time;
-            //     }
-            //     return time;
-            // },
-            // setTglJam : function ()
-            // {
-            //     var vm = this;
-            //     this.getting_date = setInterval(function() {
-            //         var date = new Date();
-            //         var h = vm.setTime(date.getHours());
-            //         var i = vm.setTime(date.getMinutes());
-            //         var s = vm.setTime(date.getSeconds());
-            //         var d = vm.setTime(date.getDate());
-            //         var dateString = date.toString();
-            //         var arrDate = dateString.split(' ');
-            //         var htmlDate = arrDate[0] + ", " + arrDate[2] + " " + arrDate[1] + " " + arrDate[3];
-            //         vm.jam = h+':'+i+':'+s;
-            //         vm.tanggal = htmlDate;
-            //      }, 10000);
-            // }
+            getAchievement : function (barcode)
+            {
+                var vm = this;
+                axios.get('api/display/get_achievement/'+barcode)
+                .then( function ( response ) {
+                    // vm.myachievement = JSON.stringify(response.data.barcode);
+                    // console.log( barcode + ' +- ' + JSON.stringify(response.data.barcode) );
+                    vm.actual.push(response.data.barcode+' - '+response.data.nobatch);
+                     // console.log(vm.actual);
+                })
+                .catch( function ( error ) {
+                    console.log( error )
+                })
+            },
+            setTime : function ( time )
+            {
+                if (time < 10) {
+                   return '0'+time;
+                }
+                return time;
+            },
+            setTglJam : function ()
+            {
+                var vm = this;
+                this.getting_date = setInterval(function() {
+                    var date = new Date();
+                    var h = vm.setTime(date.getHours());
+                    var i = vm.setTime(date.getMinutes());
+                    var s = vm.setTime(date.getSeconds());
+                    var d = vm.setTime(date.getDate());
+                    var dateString = date.toString();
+                    var arrDate = dateString.split(' ');
+                    var htmlDate = arrDate[0] + ", " + arrDate[2] + " " + arrDate[1] + " " + arrDate[3];
+                    vm.jam = h+':'+i+':'+s;
+                    vm.tanggal = htmlDate;
+                 }, 1000);
+            }
         }
     }
 </script>

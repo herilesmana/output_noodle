@@ -10,6 +10,6 @@
     <body>
     <div id="app">
     </div>
-    <script type="text/javascript" src="{{ asset('js/display.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/display2.js') }}"></script>
     </body>
 </html>
