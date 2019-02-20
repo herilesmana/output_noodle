@@ -15,7 +15,8 @@ class AchievementController extends Controller
      */
     public function index()
     {
-        //
+        $achievements = DB::table('achievement')->get();
+        echo json_encode($achievements);
     }
 
     public function get_achievements()

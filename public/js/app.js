@@ -3675,121 +3675,24 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      success: false,
-      list: [],
-      loading: false,
-      variants: [],
-      target: {
-        tanggal: [],
-        value: '',
-        variant: ''
-      },
-      pickerOptions: {
-        shortcuts: [{
-          text: 'Last week',
-          onClick: function onClick(picker) {
-            var end = new Date();
-            var start = new Date();
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
-            picker.$emit('pick', [start, end]);
-          }
-        }, {
-          text: 'Last month',
-          onClick: function onClick(picker) {
-            var end = new Date();
-            var start = new Date();
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-            picker.$emit('pick', [start, end]);
-          }
-        }, {
-          text: 'Last 3 months',
-          onClick: function onClick(picker) {
-            var end = new Date();
-            var start = new Date();
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-            picker.$emit('pick', [start, end]);
-          }
-        }]
-      }
+      achievements: []
     };
   },
   mounted: function mounted() {
-    this.getVariant();
+    this.getAchievements();
   },
   methods: {
-    getVariant: function getVariant() {
+    getAchievements: function getAchievements() {
       var vm = this;
-      axios.get('api/variant').then(function (response) {
-        vm.variants = response.data;
+      axios.get('api/achievement').then(function (response) {
+        vm.achievements = response.data;
       }).catch(function (error) {
         console.log(error);
       });
-    },
-    createTarget: function createTarget() {
-      var vm = this;
-      var start_date = moment(vm.target.tanggal[0]).format('YYYY-MM-DD');
-      var end_date = moment(vm.target.tanggal[1]).format('YYYY-MM-DD');
-      axios.post('api/achievement', {
-        target: vm.target.value,
-        start_date: start_date,
-        end_date: end_date,
-        variant: vm.target.variant
-      }).then(function (response) {
-        if (response.data.success == 1) {
-          vm.saveSuccess();
-        }
-      }).catch(function (error) {
-        console.log(error);
-      });
-    },
-    saveSuccess: function saveSuccess() {
-      this.target.value = '';
-      this.target.tanggal = [];
-      this.target.variant = '';
-      this.success = true;
-    } // remoteMethod(query) {
-    //     if (query !== '') {
-    //       this.loading = true;
-    //       setTimeout(() => {
-    //         this.loading = false;
-    //         this.variants = this.list.filter(item => {
-    //           return item.label.toLowerCase()
-    //             .indexOf(query.toLowerCase()) > -1;
-    //         });
-    //       }, 200);
-    //     } else {
-    //       this.variants = [];
-    //     }
-    // }
-
+    }
   }
 });
 
@@ -73349,144 +73252,22 @@ var render = function() {
     "div",
     [
       _c(
-        "el-row",
+        "el-table",
+        { staticStyle: { width: "100%" }, attrs: { data: _vm.achievements } },
         [
-          _c(
-            "el-col",
-            { staticStyle: { "margin-bottom": "20px" }, attrs: { span: 24 } },
-            [
-              _c("el-alert", {
-                directives: [
-                  {
-                    name: "show",
-                    rawName: "v-show",
-                    value: _vm.success,
-                    expression: "success"
-                  }
-                ],
-                attrs: {
-                  title: "Achievement Created",
-                  type: "success",
-                  "show-icon": ""
-                }
-              })
-            ],
-            1
-          ),
+          _c("el-table-column", {
+            attrs: { prop: "periode", label: "Periode" }
+          }),
           _vm._v(" "),
-          _c(
-            "el-col",
-            { attrs: { span: 12 } },
-            [
-              _c(
-                "el-form",
-                {
-                  ref: "form",
-                  attrs: { model: _vm.target, "label-width": "120px" }
-                },
-                [
-                  _c(
-                    "el-form-item",
-                    { attrs: { label: "Target" } },
-                    [
-                      _c(
-                        "el-col",
-                        { attrs: { span: 5 } },
-                        [
-                          _c("el-input", {
-                            attrs: {
-                              autofocus: "",
-                              placeholder: "Target value"
-                            },
-                            model: {
-                              value: _vm.target.value,
-                              callback: function($$v) {
-                                _vm.$set(_vm.target, "value", $$v)
-                              },
-                              expression: "target.value"
-                            }
-                          })
-                        ],
-                        1
-                      )
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "el-form-item",
-                    { attrs: { label: "Tanggal" } },
-                    [
-                      _c("el-date-picker", {
-                        attrs: {
-                          type: "daterange",
-                          align: "right",
-                          "unlink-panels": "",
-                          "range-separator": "To",
-                          "start-placeholder": "Start date",
-                          "end-placeholder": "End date",
-                          "picker-options": _vm.pickerOptions
-                        },
-                        model: {
-                          value: _vm.target.tanggal,
-                          callback: function($$v) {
-                            _vm.$set(_vm.target, "tanggal", $$v)
-                          },
-                          expression: "target.tanggal"
-                        }
-                      })
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "el-form-item",
-                    { attrs: { label: "Variant" } },
-                    [
-                      _c(
-                        "el-select",
-                        {
-                          attrs: { placeholder: "Variant" },
-                          model: {
-                            value: _vm.target.variant,
-                            callback: function($$v) {
-                              _vm.$set(_vm.target, "variant", $$v)
-                            },
-                            expression: "target.variant"
-                          }
-                        },
-                        _vm._l(_vm.variants, function(variant) {
-                          return _c("el-option", {
-                            key: variant.MID,
-                            attrs: { label: variant.name, value: variant.MID }
-                          })
-                        }),
-                        1
-                      )
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "el-form-item",
-                    [
-                      _c(
-                        "el-button",
-                        {
-                          attrs: { type: "primary" },
-                          on: { click: _vm.createTarget }
-                        },
-                        [_vm._v("Create")]
-                      )
-                    ],
-                    1
-                  )
-                ],
-                1
-              )
-            ],
-            1
-          )
+          _c("el-table-column", {
+            attrs: { prop: "variant", label: "Variant" }
+          }),
+          _vm._v(" "),
+          _c("el-table-column", { attrs: { prop: "target", label: "Target" } }),
+          _vm._v(" "),
+          _c("el-table-column", { attrs: { prop: "actual", label: "Actual" } }),
+          _vm._v(" "),
+          _c("el-table-column", { attrs: { prop: "action", label: "Action" } })
         ],
         1
       )
