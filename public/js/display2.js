@@ -3453,15 +3453,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       tampil: false,
       target: [],
-      actual: [],
+      actual: {},
       myachievement: [],
       getting_date: '',
       jam: '00:00',
@@ -3488,23 +3485,19 @@ __webpack_require__.r(__webpack_exports__);
 
         for (var i = 0; i < vm.achievements.length; i++) {
           vm.target[vm.achievements[i].barcode_variant] = vm.achievements[i].target;
-
-          if (i < 2) {
-            vm.getAchievement(vm.achievements[i].barcode_variant);
-          }
-
-          console.log(vm.actual);
+          vm.getAchievement(vm.achievements[i].barcode_variant, vm.achievements[i].start_date, vm.achievements[i].end_date);
         }
       }).catch(function (error) {
         console.log(error);
       });
     },
-    getAchievement: function getAchievement(barcode) {
+    getAchievement: function getAchievement(barcode, start_date, end_date) {
       var vm = this;
-      axios.get('api/display/get_achievement/' + barcode).then(function (response) {
+      axios.get('api/display/get_achievement/' + barcode + '/' + start_date + '/' + end_date).then(function (response) {
         // vm.myachievement = JSON.stringify(response.data.barcode);
         // console.log( barcode + ' +- ' + JSON.stringify(response.data.barcode) );
-        vm.actual.push(response.data.barcode + ' - ' + response.data.nobatch); // console.log(vm.actual);
+        vm.actual[response.data.barcode] = response.data.actual; // console.log(response.data.nobatch)
+        // console.log(vm.actual);
       }).catch(function (error) {
         console.log(error);
       });
@@ -72886,21 +72879,6 @@ var render = function() {
                 1
               ),
               _vm._v(" "),
-              _c(
-                "span",
-                {
-                  directives: [
-                    {
-                      name: "show",
-                      rawName: "v-show",
-                      value: _vm.tampil,
-                      expression: "tampil"
-                    }
-                  ]
-                },
-                [_vm._v(_vm._s((_vm.no = 0)))]
-              ),
-              _vm._v(" "),
               _vm._l(_vm.achievements, function(achievement) {
                 return _c(
                   "el-row",
@@ -72930,8 +72908,6 @@ var render = function() {
                       [
                         _vm._v(
                           "\n                    " +
-                            _vm._s(achievement.barcode_variant) +
-                            " -\n                    " +
                             _vm._s(_vm.target[achievement.barcode_variant]) +
                             "\n                "
                         )
@@ -72941,7 +72917,7 @@ var render = function() {
                     _c(
                       "el-col",
                       { staticClass: "variant-item", attrs: { span: 4 } },
-                      [_vm._v(_vm._s(_vm.actual[_vm.no]))]
+                      [_vm._v(_vm._s(_vm.actual[achievement.barcode_variant]))]
                     ),
                     _vm._v(" "),
                     _c(
@@ -72952,26 +72928,11 @@ var render = function() {
                           _vm._s(
                             _vm.getPersentase(
                               _vm.target[achievement.barcode_variant],
-                              _vm.actual[_vm.no]
+                              _vm.actual[achievement.barcode_variant]
                             )
                           ) + " %"
                         )
                       ]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "span",
-                      {
-                        directives: [
-                          {
-                            name: "show",
-                            rawName: "v-show",
-                            value: _vm.tampil,
-                            expression: "tampil"
-                          }
-                        ]
-                      },
-                      [_vm._v(_vm._s(_vm.no++))]
                     )
                   ],
                   1

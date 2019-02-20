@@ -27,10 +27,16 @@ class AchievementController extends Controller
         return json_encode($achievements);
     }
 
-    public function get_achievement($barcode)
+    public function get_achievement($barcode, $start_date, $end_date)
     {
-        $achievement = DB::connection('sqlsrv')->table('mlog')->where('barcode', $barcode)->where('tgljam', '>', '2019-02-17 00:00:00')->orderBy('tgljam', 'desc')->first();
-        return json_encode($achievement);
+        $achievement = DB::connection('sqlsrv')
+        ->table('mlog')
+        ->select('barcode')
+        ->where('barcode', $barcode)
+        ->where('tgljam', '>=', $start_date.' 00:00:00')
+        ->where('tgljam', '<=', $end_date.' 23:59:59')
+        ->orderBy('tgljam', 'desc')->count();
+        return json_encode(["barcode" => $barcode, "actual" => $achievement]);
     }
 
     /**

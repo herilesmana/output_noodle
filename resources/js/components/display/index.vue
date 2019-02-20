@@ -25,17 +25,14 @@
                     <el-col class="variant-item" :span="4">Actual</el-col>
                     <el-col class="variant-item" :span="4">Achievement</el-col>
                 </el-row>
-                <span v-show="tampil">{{ no = 0 }}</span>
                 <el-row class="variant" v-for="achievement in achievements" :key="achievement.id">
                     <el-col class="variant-item" :span="8">{{ achievement.nama_variant }}</el-col>
                     <el-col class="variant-item" :span="4">{{ achievement.start_date }} - {{ achievement.end_date }}</el-col>
                     <el-col class="variant-item" :span="4">
-                        {{ achievement.barcode_variant }} -
                         {{ target[achievement.barcode_variant] }}
                     </el-col>
-                    <el-col class="variant-item" :span="4">{{ actual[no] }}</el-col>
-                    <el-col class="variant-item" :span="4">{{ getPersentase(target[achievement.barcode_variant],actual[no]) }} %</el-col>
-                    <span v-show="tampil">{{ no ++ }}</span>
+                    <el-col class="variant-item" :span="4">{{ actual[achievement.barcode_variant] }}</el-col>
+                    <el-col class="variant-item" :span="4">{{ getPersentase(target[achievement.barcode_variant],actual[achievement.barcode_variant]) }} %</el-col>
                 </el-row>
             </el-main>
         </el-container>
@@ -69,7 +66,7 @@
             return {
                 tampil: false,
                 target: [],
-                actual: [],
+                actual: {},
                 myachievement : [],
                 getting_date : '',
                 jam : '00:00',
@@ -99,24 +96,22 @@
                     vm.actual = [];
                     for (var i = 0; i < vm.achievements.length; i++) {
                         vm.target[vm.achievements[i].barcode_variant] = vm.achievements[i].target;
-                        if (i < 2) {
-                            vm.getAchievement(vm.achievements[i].barcode_variant);
-                        }
-                        console.log(vm.actual);
+                        vm.getAchievement(vm.achievements[i].barcode_variant, vm.achievements[i].start_date, vm.achievements[i].end_date);
                     }
                 })
                 .catch( function ( error ) {
                     console.log( error )
                 })
             },
-            getAchievement : function (barcode)
+            getAchievement : function (barcode, start_date, end_date)
             {
                 var vm = this;
-                axios.get('api/display/get_achievement/'+barcode)
+                axios.get('api/display/get_achievement/'+barcode+'/'+start_date+'/'+end_date)
                 .then( function ( response ) {
                     // vm.myachievement = JSON.stringify(response.data.barcode);
                     // console.log( barcode + ' +- ' + JSON.stringify(response.data.barcode) );
-                    vm.actual.push(response.data.barcode+' - '+response.data.nobatch);
+                    vm.actual[response.data.barcode] = response.data.actual;
+                    // console.log(response.data.nobatch)
                      // console.log(vm.actual);
                 })
                 .catch( function ( error ) {

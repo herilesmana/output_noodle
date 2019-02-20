@@ -22,11 +22,13 @@ import OBase from './components/OBase.vue';
 import Home from './components/Home.vue';
 import UserGet from './components/users/GetUser.vue';
 import CreateTarget from './components/target/Create.vue';
+import ListTarget from './components/target/List.vue';
 
 const routes = [
-    { path: '/home', component: Home },
+	{ path: '/', component: Home },
     { path: '/users', component: UserGet },
-    { path: '/target/create', component: CreateTarget }
+    { path: '/target/create', component: CreateTarget },
+    { path: '/target/list', component: ListTarget }
 ]
 
 const router = new VueRouter({

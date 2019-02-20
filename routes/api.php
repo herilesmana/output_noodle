@@ -21,4 +21,4 @@ Route::resource('user', 'UserController');
 Route::resource('variant', 'VariantController');
 Route::resource('achievement', 'AchievementController');
 Route::get('/display/get_achievements', 'AchievementController@get_achievements');
-Route::get('/display/get_achievement/{barcode}', 'AchievementController@get_achievement');
+Route::get('/display/get_achievement/{barcode}/{start_date}/{end_date}', 'AchievementController@get_achievement');
