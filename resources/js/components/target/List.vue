@@ -4,11 +4,15 @@
             :data="achievements"
             style="width: 100%">
             <el-table-column
-                prop="periode"
-                label="Periode">
+                prop="start_date"
+                label="Start Date">
             </el-table-column>
             <el-table-column
-                prop="variant"
+                prop="end_date"
+                label="End Date">
+            </el-table-column>
+            <el-table-column
+                prop="nama_variant"
                 label="Variant">
             </el-table-column>
             <el-table-column

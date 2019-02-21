@@ -3472,7 +3472,8 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     getPersentase: function getPersentase(target, actual) {
-      var hasil = actual / target * 100; // console.log(hasil);
+      var hasil = actual / target * 100;
+      hasil = hasil.toFixed(4); // console.log(hasil);
 
       return hasil;
     },

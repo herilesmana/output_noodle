@@ -8,7 +8,7 @@
                             <img src="images/logo.png" alt="PT. PAS" height="45px">
                         </el-col>
                         <el-col :span="16" style="text-align: center">
-                            <span style="font-size: 30px">Display Output Noodle 1</span><i style="font-size: 10px"> v.1.0</i>
+                            <span style="font-size: 30px">.Display Output Noodle 1</span><i style="font-size: 10px"> v.1.0</i>
                         </el-col>
                         <el-col :span="4">
                             <span class="jam" style="font-size: 20px">{{ jam }}</span><br>
@@ -27,7 +27,7 @@
                 </el-row>
                 <el-row class="variant" v-for="achievement in achievements" :key="achievement.id">
                     <el-col class="variant-item" :span="8">{{ achievement.nama_variant }}</el-col>
-                    <el-col class="variant-item" :span="4">{{ achievement.start_date }} - {{ achievement.end_date }}</el-col>
+                    <el-col class="variant-item" :span="4">{{ getDate(achievement.start_date) }} - {{ getDate(achievement.end_date) }}</el-col>
                     <el-col class="variant-item" :span="4">
                         {{ target[achievement.barcode_variant] }}
                     </el-col>
@@ -47,8 +47,8 @@
     .variant .variant-item {
         border-left: 1px solid #999;
         padding: 10px;
-        padding-top: 20px;
-        padding-bottom: 20px;
+        padding-top: 10px;
+        padding-bottom: 10px;
     }
     .variant.variant-header {
         border-top: 1px solid #999;
@@ -77,12 +77,22 @@
         mounted: function () {
             this.getAchievements();
             this.setTglJam();
+            this.doRefresh();
             // this.getAchievement(18998866200315);
         },
         methods: {
+            doRefresh: function () {
+                setTimeout(function() {
+                    location.reload();
+                }, 60000);
+            },
+            getDate: function (date) {
+                return date.substring(5,7)+"/"+date.substring(8);
+            },
             getPersentase : function (target, actual)
             {
                 var hasil = (actual / target) * 100 ;
+                hasil = hasil.toFixed(4);
                 // console.log(hasil);
                 return hasil;
             },

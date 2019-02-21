@@ -3675,6 +3675,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -73256,11 +73260,15 @@ var render = function() {
         { staticStyle: { width: "100%" }, attrs: { data: _vm.achievements } },
         [
           _c("el-table-column", {
-            attrs: { prop: "periode", label: "Periode" }
+            attrs: { prop: "start_date", label: "Start Date" }
           }),
           _vm._v(" "),
           _c("el-table-column", {
-            attrs: { prop: "variant", label: "Variant" }
+            attrs: { prop: "end_date", label: "End Date" }
+          }),
+          _vm._v(" "),
+          _c("el-table-column", {
+            attrs: { prop: "nama_variant", label: "Variant" }
           }),
           _vm._v(" "),
           _c("el-table-column", { attrs: { prop: "target", label: "Target" } }),

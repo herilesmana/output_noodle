@@ -15,7 +15,10 @@ class AchievementController extends Controller
      */
     public function index()
     {
-        $achievements = DB::table('achievement')->get();
+        $achievements = DB::table('achievement')
+        ->join('mvariant', 'achievement.MID', '=', 'mvariant.MID')
+        ->select('achievement.*', 'mvariant.name as nama_variant')
+        ->get();
         echo json_encode($achievements);
     }
 
@@ -30,12 +33,15 @@ class AchievementController extends Controller
 
     public function get_achievement($barcode, $start_date, $end_date)
     {
+        $datetime = new \DateTime($end_date);
+        $datetime->modify('+1 day');
+        $end_date = $datetime->format('Y-m-d');
         $achievement = DB::connection('sqlsrv')
         ->table('mlog')
         ->select('barcode')
         ->where('barcode', $barcode)
-        ->where('tgljam', '>=', $start_date.' 00:00:00')
-        ->where('tgljam', '<=', $end_date.' 23:59:59')
+        ->where('tgljam', '>=', $start_date.' 07:00:00')
+        ->where('tgljam', '<=', $end_date.' 06:59:59')
         ->orderBy('tgljam', 'desc')->count();
         return json_encode(["barcode" => $barcode, "actual" => $achievement]);
     }

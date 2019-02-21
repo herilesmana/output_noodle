@@ -3468,11 +3468,21 @@ __webpack_require__.r(__webpack_exports__);
   },
   mounted: function mounted() {
     this.getAchievements();
-    this.setTglJam(); // this.getAchievement(18998866200315);
+    this.setTglJam();
+    this.doRefresh(); // this.getAchievement(18998866200315);
   },
   methods: {
+    doRefresh: function doRefresh() {
+      setTimeout(function () {
+        location.reload();
+      }, 60000);
+    },
+    getDate: function getDate(date) {
+      return date.substring(5, 7) + "/" + date.substring(8);
+    },
     getPersentase: function getPersentase(target, actual) {
-      var hasil = actual / target * 100; // console.log(hasil);
+      var hasil = actual / target * 100;
+      hasil = hasil.toFixed(4); // console.log(hasil);
 
       return hasil;
     },
@@ -5367,7 +5377,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.variant[data-v-6292c2ec] {\n    border-bottom: 1px solid #999;\n    border-right: 1px solid #999;\n}\n.variant .variant-item[data-v-6292c2ec] {\n    border-left: 1px solid #999;\n    padding: 10px;\n    padding-top: 20px;\n    padding-bottom: 20px;\n}\n.variant.variant-header[data-v-6292c2ec] {\n    border-top: 1px solid #999;\n    border-bottom: 2px solid #999;\n}\n.variant.variant-header .variant-item[data-v-6292c2ec] {\n    text-align: center;\n    font-weight: bold;\n}\n", ""]);
+exports.push([module.i, "\n.variant[data-v-6292c2ec] {\n    border-bottom: 1px solid #999;\n    border-right: 1px solid #999;\n}\n.variant .variant-item[data-v-6292c2ec] {\n    border-left: 1px solid #999;\n    padding: 10px;\n    padding-top: 10px;\n    padding-bottom: 10px;\n}\n.variant.variant-header[data-v-6292c2ec] {\n    border-top: 1px solid #999;\n    border-bottom: 2px solid #999;\n}\n.variant.variant-header .variant-item[data-v-6292c2ec] {\n    text-align: center;\n    font-weight: bold;\n}\n", ""]);
 
 // exports
 
@@ -72806,7 +72816,7 @@ var render = function() {
                         },
                         [
                           _c("span", { staticStyle: { "font-size": "30px" } }, [
-                            _vm._v("Display Output Noodle 1")
+                            _vm._v(".Display Output Noodle 1")
                           ]),
                           _c("i", { staticStyle: { "font-size": "10px" } }, [
                             _vm._v(" v.1.0")
@@ -72895,9 +72905,9 @@ var render = function() {
                       { staticClass: "variant-item", attrs: { span: 4 } },
                       [
                         _vm._v(
-                          _vm._s(achievement.start_date) +
+                          _vm._s(_vm.getDate(achievement.start_date)) +
                             " - " +
-                            _vm._s(achievement.end_date)
+                            _vm._s(_vm.getDate(achievement.end_date))
                         )
                       ]
                     ),
