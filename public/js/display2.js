@@ -3453,14 +3453,51 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       tampil: false,
+      item: {},
       target: [],
       actual: {},
       myachievement: [],
       getting_date: '',
+      getTercapai: '',
       jam: '00:00',
       tanggal: '00 Januari 0000',
       achievements: []
@@ -3469,9 +3506,18 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     this.getAchievements();
     this.setTglJam();
-    this.doRefresh(); // this.getAchievement(18998866200315);
+    this.doRefresh(); // this.tercapaiItem();
+    // this.getAchievement(18998866200315);
   },
   methods: {
+    // tercapaiItem: function () {
+    //     var vm = this;
+    //     var no = 1;
+    //     this.getTercapai = setInterval( function () {
+    //         vm.item[no] = true;
+    //         no ++;
+    //     }, 3000)
+    // },
     doRefresh: function doRefresh() {
       setTimeout(function () {
         location.reload();
@@ -3482,9 +3528,16 @@ __webpack_require__.r(__webpack_exports__);
     },
     getPersentase: function getPersentase(target, actual) {
       var hasil = actual / target * 100;
-      hasil = hasil.toFixed(4); // console.log(hasil);
+      var result = "";
 
-      return hasil;
+      if (isNaN(hasil)) {
+        result = "Calculating..";
+      } else {
+        result = hasil.toFixed(2) + " %";
+      } // console.log(hasil);
+
+
+      return result;
     },
     getAchievements: function getAchievements() {
       var vm = this;
@@ -3506,7 +3559,8 @@ __webpack_require__.r(__webpack_exports__);
       axios.get('api/display/get_achievement/' + barcode + '/' + start_date + '/' + end_date).then(function (response) {
         // vm.myachievement = JSON.stringify(response.data.barcode);
         // console.log( barcode + ' +- ' + JSON.stringify(response.data.barcode) );
-        vm.actual[response.data.barcode] = response.data.actual; // console.log(response.data.nobatch)
+        vm.actual[response.data.barcode] = response.data.actual;
+        localStorage.setItem(vm.actual[response.data.barcode], response.data.actual); // console.log(response.data.nobatch)
         // console.log(vm.actual);
       }).catch(function (error) {
         console.log(error);
@@ -5377,7 +5431,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.variant[data-v-6292c2ec] {\n    border-bottom: 1px solid #999;\n    border-right: 1px solid #999;\n}\n.variant .variant-item[data-v-6292c2ec] {\n    border-left: 1px solid #999;\n    padding: 10px;\n    padding-top: 10px;\n    padding-bottom: 10px;\n}\n.variant.variant-header[data-v-6292c2ec] {\n    border-top: 1px solid #999;\n    border-bottom: 2px solid #999;\n}\n.variant.variant-header .variant-item[data-v-6292c2ec] {\n    text-align: center;\n    font-weight: bold;\n}\n", ""]);
+exports.push([module.i, "\nul.tercapai li[data-v-6292c2ec] {\n    margin: 0;\n    padding: 0\n}\nul.tercapai[data-v-6292c2ec] {\n    margin: 0;\n    padding: 0;\n    height: 20px;\n}\n.row1[data-v-6292c2ec] {\n    background: #eee;\n}\n.row2[data-v-6292c2ec] {\n    background: #fff;\n}\n.variant[data-v-6292c2ec] {\n    font-family: Calibri;\n    border-bottom: 1px solid #999;\n    border-right: 1px solid #999;\n}\n.variant .variant-item[data-v-6292c2ec] {\n    border-left: 1px solid #999;\n    padding: 10px;\n    padding-top: 10px;\n    padding-bottom: 10px;\n}\n.variant.variant-header[data-v-6292c2ec] {\n    border-top: 1px solid #999;\n    border-bottom: 2px solid #999;\n    background: #BC0303;\n    color: #fff;\n}\n.variant.variant-header .variant-item[data-v-6292c2ec] {\n    text-align: center;\n    font-weight: bold;\n}\n", ""]);
 
 // exports
 
@@ -72816,7 +72870,7 @@ var render = function() {
                         },
                         [
                           _c("span", { staticStyle: { "font-size": "30px" } }, [
-                            _vm._v(".Display Output Noodle 1")
+                            _vm._v("Display Output Noodle 1")
                           ]),
                           _c("i", { staticStyle: { "font-size": "10px" } }, [
                             _vm._v(" v.1.0")
@@ -72858,7 +72912,7 @@ var render = function() {
                 [
                   _c(
                     "el-col",
-                    { staticClass: "variant-item", attrs: { span: 8 } },
+                    { staticClass: "variant-item", attrs: { span: 10 } },
                     [_vm._v("Variant")]
                   ),
                   _vm._v(" "),
@@ -72870,13 +72924,13 @@ var render = function() {
                   _vm._v(" "),
                   _c(
                     "el-col",
-                    { staticClass: "variant-item", attrs: { span: 4 } },
+                    { staticClass: "variant-item", attrs: { span: 3 } },
                     [_vm._v("Target")]
                   ),
                   _vm._v(" "),
                   _c(
                     "el-col",
-                    { staticClass: "variant-item", attrs: { span: 4 } },
+                    { staticClass: "variant-item", attrs: { span: 3 } },
                     [_vm._v("Actual")]
                   ),
                   _vm._v(" "),
@@ -72889,65 +72943,155 @@ var render = function() {
                 1
               ),
               _vm._v(" "),
-              _vm._l(_vm.achievements, function(achievement) {
-                return _c(
-                  "el-row",
-                  { key: achievement.id, staticClass: "variant" },
-                  [
-                    _c(
-                      "el-col",
-                      { staticClass: "variant-item", attrs: { span: 8 } },
-                      [_vm._v(_vm._s(achievement.nama_variant))]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "el-col",
-                      { staticClass: "variant-item", attrs: { span: 4 } },
+              _vm._l(_vm.achievements, function(achievement, index) {
+                return _vm.actual[achievement.barcode_variant] != 0 &&
+                  (_vm.target[achievement.barcode_variant] /
+                    _vm.actual[achievement.barcode_variant]) *
+                    100 >
+                    100
+                  ? _c(
+                      "el-row",
+                      { key: achievement.id, staticClass: "variant" },
                       [
-                        _vm._v(
-                          _vm._s(_vm.getDate(achievement.start_date)) +
-                            " - " +
-                            _vm._s(_vm.getDate(achievement.end_date))
-                        )
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "el-col",
-                      { staticClass: "variant-item", attrs: { span: 4 } },
-                      [
-                        _vm._v(
-                          "\n                    " +
-                            _vm._s(_vm.target[achievement.barcode_variant]) +
-                            "\n                "
-                        )
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "el-col",
-                      { staticClass: "variant-item", attrs: { span: 4 } },
-                      [_vm._v(_vm._s(_vm.actual[achievement.barcode_variant]))]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "el-col",
-                      { staticClass: "variant-item", attrs: { span: 4 } },
-                      [
-                        _vm._v(
-                          _vm._s(
-                            _vm.getPersentase(
-                              _vm.target[achievement.barcode_variant],
-                              _vm.actual[achievement.barcode_variant]
+                        _c(
+                          "el-col",
+                          { staticClass: "variant-item", attrs: { span: 10 } },
+                          [_vm._v(_vm._s(achievement.nama_variant))]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "el-col",
+                          { staticClass: "variant-item", attrs: { span: 4 } },
+                          [
+                            _vm._v(
+                              _vm._s(_vm.getDate(achievement.start_date)) +
+                                " - " +
+                                _vm._s(_vm.getDate(achievement.end_date))
                             )
-                          ) + " %"
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "el-col",
+                          { staticClass: "variant-item", attrs: { span: 3 } },
+                          [
+                            _vm._v(
+                              "\n                    " +
+                                _vm._s(
+                                  _vm.target[achievement.barcode_variant]
+                                    .toString()
+                                    .replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1.")
+                                ) +
+                                "\n                "
+                            )
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "el-col",
+                          { staticClass: "variant-item", attrs: { span: 3 } },
+                          [
+                            _vm.actual[achievement.barcode_variant]
+                              ? _c("span", [
+                                  _vm._v(
+                                    "\n                        " +
+                                      _vm._s(
+                                        _vm.actual[achievement.barcode_variant]
+                                          .toString()
+                                          .replace(
+                                            /(\d)(?=(\d\d\d)+(?!\d))/g,
+                                            "$1."
+                                          )
+                                      ) +
+                                      "\n                    "
+                                  )
+                                ])
+                              : _c("span", [_vm._v("Waiting..")])
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "el-col",
+                          { staticClass: "variant-item", attrs: { span: 4 } },
+                          [
+                            _vm._v(
+                              "\n                " +
+                                _vm._s(
+                                  _vm.getPersentase(
+                                    _vm.target[achievement.barcode_variant],
+                                    _vm.actual[achievement.barcode_variant]
+                                  )
+                                ) +
+                                "\n                "
+                            )
+                          ]
                         )
-                      ]
+                      ],
+                      1
                     )
-                  ],
-                  1
-                )
-              })
+                  : _vm._e()
+              }),
+              _vm._v(" "),
+              _c(
+                "el-row",
+                { staticClass: "variant" },
+                [
+                  _c(
+                    "el-col",
+                    { staticClass: "variant-item", attrs: { span: 10 } },
+                    [_c("strong", [_vm._v("Target Tercapai")])]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "el-col",
+                    { staticClass: "variant-item", attrs: { span: 14 } },
+                    [
+                      _c(
+                        "marquee",
+                        { attrs: { direction: "up", scrollamount: "1" } },
+                        [
+                          _c(
+                            "ul",
+                            { staticClass: "tercapai" },
+                            _vm._l(_vm.achievements, function(
+                              achievement,
+                              index
+                            ) {
+                              return _vm.actual[achievement.barcode_variant] !=
+                                0 &&
+                                (_vm.target[achievement.barcode_variant] /
+                                  _vm.actual[achievement.barcode_variant]) *
+                                  100 <
+                                  100
+                                ? _c("li", { key: achievement.id }, [
+                                    _vm._v(
+                                      _vm._s(achievement.nama_variant) +
+                                        " ( " +
+                                        _vm._s(
+                                          _vm.getPersentase(
+                                            _vm.target[
+                                              achievement.barcode_variant
+                                            ],
+                                            _vm.actual[
+                                              achievement.barcode_variant
+                                            ]
+                                          )
+                                        ) +
+                                        " )"
+                                    )
+                                  ])
+                                : _vm._e()
+                            }),
+                            0
+                          )
+                        ]
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
             ],
             2
           )

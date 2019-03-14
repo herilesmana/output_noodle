@@ -12,12 +12,6 @@
             <el-col :span="12">
                 <el-form ref="form" :model="target" label-width="120px">
                     <el-form-item
-                    label="Target">
-                        <el-col :span="5">
-                            <el-input autofocus="" v-model="target.value" placeholder="Target value"></el-input>
-                        </el-col>
-                    </el-form-item>
-                    <el-form-item
                     label="Tanggal">
                         <el-date-picker
                           v-model="target.tanggal"
@@ -34,7 +28,7 @@
                     label="Variant">
                         <el-select
                             v-model="target.variant"
-                            placeholder="Variant">
+                            placeholder="Variant.">
                             <el-option
                               v-for="variant in variants"
                               :key="variant.MID"
@@ -42,6 +36,12 @@
                               :value="variant.MID" >
                             </el-option>
                           </el-select>
+                    </el-form-item>
+                    <el-form-item
+                    label="Target">
+                        <el-col :span="5">
+                            <el-input autofocus="" v-model="target.value" placeholder="Target value"></el-input>
+                        </el-col>
                     </el-form-item>
                     <el-form-item>
                         <el-button type="primary" @click="createTarget">Create</el-button>
@@ -132,7 +132,6 @@
             saveSuccess : function ()
             {
                 this.target.value = '';
-                this.target.tanggal = [];
                 this.target.variant = '';
                 this.success = true;
             }

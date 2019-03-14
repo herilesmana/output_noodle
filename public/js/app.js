@@ -3614,7 +3614,6 @@ __webpack_require__.r(__webpack_exports__);
     },
     saveSuccess: function saveSuccess() {
       this.target.value = '';
-      this.target.tanggal = [];
       this.target.variant = '';
       this.success = true;
     } // remoteMethod(query) {
@@ -73123,34 +73122,6 @@ var render = function() {
                 [
                   _c(
                     "el-form-item",
-                    { attrs: { label: "Target" } },
-                    [
-                      _c(
-                        "el-col",
-                        { attrs: { span: 5 } },
-                        [
-                          _c("el-input", {
-                            attrs: {
-                              autofocus: "",
-                              placeholder: "Target value"
-                            },
-                            model: {
-                              value: _vm.target.value,
-                              callback: function($$v) {
-                                _vm.$set(_vm.target, "value", $$v)
-                              },
-                              expression: "target.value"
-                            }
-                          })
-                        ],
-                        1
-                      )
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "el-form-item",
                     { attrs: { label: "Tanggal" } },
                     [
                       _c("el-date-picker", {
@@ -73182,7 +73153,7 @@ var render = function() {
                       _c(
                         "el-select",
                         {
-                          attrs: { placeholder: "Variant" },
+                          attrs: { placeholder: "Variant." },
                           model: {
                             value: _vm.target.variant,
                             callback: function($$v) {
@@ -73197,6 +73168,34 @@ var render = function() {
                             attrs: { label: variant.name, value: variant.MID }
                           })
                         }),
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "el-form-item",
+                    { attrs: { label: "Target" } },
+                    [
+                      _c(
+                        "el-col",
+                        { attrs: { span: 5 } },
+                        [
+                          _c("el-input", {
+                            attrs: {
+                              autofocus: "",
+                              placeholder: "Target value"
+                            },
+                            model: {
+                              value: _vm.target.value,
+                              callback: function($$v) {
+                                _vm.$set(_vm.target, "value", $$v)
+                              },
+                              expression: "target.value"
+                            }
+                          })
+                        ],
                         1
                       )
                     ],
